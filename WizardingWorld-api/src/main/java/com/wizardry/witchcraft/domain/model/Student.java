@@ -1,7 +1,14 @@
 package com.wizardry.witchcraft.domain.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-/*@Entity(name = "student")*/
+
+
+@Entity(name = "student")
 public class Student {
 	
 	public Student (Long id, String name, String familyName, String email) {
@@ -13,14 +20,12 @@ public class Student {
 		this.email = email;			
 	}
 	
-	/*
-	 * @id
-	 * 
-	 * @GeneratedValue(strategy = GenerationType.IDENTITY)
-	 */
+	
+	@Id	  
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	
-	/* @Column(nullable= false, length = 50) */
+	@Column(nullable= false, length = 50) 
 	public String name;
 	
 	public String nationalServiceNumber;

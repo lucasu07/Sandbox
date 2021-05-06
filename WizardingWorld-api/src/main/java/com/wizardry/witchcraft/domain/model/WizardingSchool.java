@@ -1,5 +1,11 @@
 package com.wizardry.witchcraft.domain.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * @author lucas-SonyBlack
  * Outside of general education, the wizarding world offered specialised schools of learning as well. Such schools
@@ -8,9 +14,11 @@ package com.wizardry.witchcraft.domain.model;
  *
  */
 
-/*@Entity*/
-public class WizardingSchool {
+@Entity(name = "wizardingschool")
+public class WizardingSchool {	
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	
 	public String name;
@@ -19,6 +27,7 @@ public class WizardingSchool {
 	
 	public Boolean isTheSchoolSpecialized;
 
+	@Column(name = "rangelocation")
 	public String range;
 	
 	public String dateFounded;
