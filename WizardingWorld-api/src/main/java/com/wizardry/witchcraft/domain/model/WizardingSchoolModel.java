@@ -15,7 +15,7 @@ import javax.persistence.Id;
  */
 
 @Entity(name = "wizardingschool")
-public class WizardingSchool {	
+public class WizardingSchoolModel {	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -96,7 +96,7 @@ public class WizardingSchool {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		WizardingSchool other = (WizardingSchool) obj;
+		WizardingSchoolModel other = (WizardingSchoolModel) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
