@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -27,6 +28,9 @@ public class StudentModel {
 	@Id	  
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
+	
+	@ManyToOne
+	public WizardingSchoolModel wizardingSchoolModel;
 	
 	@Column(nullable= false, length = 50) 
 	public String name;

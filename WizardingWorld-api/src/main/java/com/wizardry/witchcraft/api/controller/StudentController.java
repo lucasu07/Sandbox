@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wizardry.witchcraft.domain.model.StudentModel;
+import com.wizardry.witchcraft.domain.repository.ICustomJpaRepository;
 import com.wizardry.witchcraft.domain.repository.IStudentRepository;
 
 @RestController
@@ -16,15 +17,13 @@ import com.wizardry.witchcraft.domain.repository.IStudentRepository;
 public class StudentController {
 	
 	@Autowired
-	private IStudentRepository iStudentRepository;
+	private ICustomJpaRepository iCustomJpaRepository;
 	
 	@GetMapping
 	public  List<StudentModel> listar() {
-		
-		
-		return null;		
+				
+		return iCustomJpaRepository.listar();		
 	}
 	
 	
-
 }

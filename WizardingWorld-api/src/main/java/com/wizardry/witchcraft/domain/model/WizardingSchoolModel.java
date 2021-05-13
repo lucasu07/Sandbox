@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * @author lucas-SonyBlack
  * Outside of general education, the wizarding world offered specialised schools of learning as well. Such schools
@@ -14,10 +17,14 @@ import javax.persistence.Id;
  *
  */
 
+@Data
+@EqualsAndHashCode( onlyExplicitlyIncluded = true)
 @Entity(name = "wizardingschool")
 public class WizardingSchoolModel {	
 	
+	
 	@Id
+	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	
@@ -27,83 +34,11 @@ public class WizardingSchoolModel {
 	
 	public Boolean isTheSchoolSpecialized;
 
-	@Column(name = "rangelocation")
+	@Column(name = "rangeLocation")
 	public String range;
 	
 	public String dateFounded;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public String getRange() {
-		return range;
-	}
-
-	public void setRange(String range) {
-		this.range = range;
-	}
-
-	public String getDateFounded() {
-		return dateFounded;
-	}
-
-	public void setDateFounded(String dateFounded) {
-		this.dateFounded = dateFounded;
-	}
-	
-	public Boolean getIsTheSchoolSpecialized() {
-		return isTheSchoolSpecialized;
-	}
-
-	public void setIsTheSchoolSpecialized(Boolean isTheSchoolSpecialized) {
-		this.isTheSchoolSpecialized = isTheSchoolSpecialized;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		WizardingSchoolModel other = (WizardingSchoolModel) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
 	
 
 }
