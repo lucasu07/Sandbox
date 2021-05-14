@@ -28,6 +28,7 @@ public class WizardingSchoolModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	
+	@Column(nullable= false, length = 50) 
 	public String name;
 	
 	public String location;
@@ -39,6 +40,5 @@ public class WizardingSchoolModel {
 	
 	public String dateFounded;
 
-	
 
 }
