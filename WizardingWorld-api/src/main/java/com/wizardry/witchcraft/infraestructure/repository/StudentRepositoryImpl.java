@@ -1,9 +1,10 @@
 package com.wizardry.witchcraft.infraestructure.repository;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 
 
@@ -12,23 +13,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.wizardry.witchcraft.domain.model.StudentModel;
-import com.wizardry.witchcraft.domain.repository.ICustomJpaRepository;
+
+import com.wizardry.witchcraft.domain.repository.IStudentRepository;
 
 
 @Component
-public class StudentRepositoryImpl implements ICustomJpaRepository{
+public class StudentRepositoryImpl implements IStudentRepository{
 	
 	@PersistenceContext
 	private EntityManager manager;
 	
-	@Override
-	public List<StudentModel> listar(){
-		return manager.createQuery("from student", StudentModel.class).getResultList();
-		
-	}
+	
+	  @Override public List<StudentModel> listar(){ return
+	  manager.createQuery("from student", StudentModel.class).getResultList();
+	  
+	  }
+	 
 	
 	@Override
-	public StudentModel find (Long id)	{
+	public StudentModel findCustom (Long id)	{
 		return manager.find(StudentModel.class, id);
 		
 	}	
@@ -41,7 +44,7 @@ public class StudentRepositoryImpl implements ICustomJpaRepository{
 	
 	@Transactional
 	@Override
-	public StudentModel save(StudentModel student) {
+	public StudentModel saveCustom(StudentModel student) {
 		return manager.merge(student);
 		
 	}
@@ -49,11 +52,11 @@ public class StudentRepositoryImpl implements ICustomJpaRepository{
 	 @Transactional
 	 @Override
 	public void delete(StudentModel student) {
-		student = find(student.getId());
+		student = findCustom(student.getId());
 		 manager.remove(student);
 		
 	}
-	
-	
+
+
 		
 }

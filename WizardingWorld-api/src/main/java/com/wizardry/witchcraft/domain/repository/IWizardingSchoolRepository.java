@@ -7,7 +7,7 @@ import com.wizardry.witchcraft.domain.model.WizardingSchoolModel;
 
 
 @Repository
-public interface IWizardingSchool {
+public interface IWizardingSchoolRepository {
 		
 
 }
