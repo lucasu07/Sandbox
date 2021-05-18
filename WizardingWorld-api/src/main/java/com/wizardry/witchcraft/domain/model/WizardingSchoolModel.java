@@ -33,10 +33,11 @@ public class WizardingSchoolModel {
 	
 	public String location;
 	
+	//@JsonIgnore
 	public Boolean isTheSchoolSpecialized;
 
 	@Column(name = "rangeLocation")
-	public String range;
+	public String rangeLocation;
 	
 	public String dateFounded;
 

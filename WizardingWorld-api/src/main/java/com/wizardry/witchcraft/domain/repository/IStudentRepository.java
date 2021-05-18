@@ -14,10 +14,10 @@ import com.wizardry.witchcraft.domain.model.StudentModel;
 @Repository
 public interface IStudentRepository {
 	
-	List<StudentModel> listar();
-	StudentModel findCustom(Long id);
-	StudentModel saveCustom(StudentModel studentModel);
-	void delete(StudentModel studentModel);
+	List<StudentModel> listItAll();
+	StudentModel findOne(Long id);
+	StudentModel saveOne(StudentModel studentModel);
+	void deleteOne(Long Id);
 		
 	
 }

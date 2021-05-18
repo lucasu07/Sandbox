@@ -24,39 +24,36 @@ public class StudentRepositoryImpl implements IStudentRepository{
 	private EntityManager manager;
 	
 	
-	  @Override public List<StudentModel> listar(){ return
-	  manager.createQuery("from student", StudentModel.class).getResultList();
+	  @Override public List<StudentModel> listItAll(){ 
+		  return  manager.createQuery("from student", StudentModel.class).getResultList();
 	  
 	  }
 	 
 	
 	@Override
-	public StudentModel findCustom (Long id)	{
+	public StudentModel findOne (Long id)	{
 		return manager.find(StudentModel.class, id);
 		
 	}	
 	
-	/*
-	 * No contexto do Hibernate quando adicionamos um record e passamos a
-	 * propriedade id , o proprio HIBERNATE faz um SELECT e encontrando um record já
-	 * no db, faz um UPDATE ao invés de um INSERT.
-	 */
+	
+	 // No contexto do Hibernate quando adicionamos um record e passamos a
+	 // propriedade id , o proprio HIBERNATE faz um SELECT e encontrando um record já
+	 // no db, faz um UPDATE ao invés de um INSERT.
+	 
 	
 	@Transactional
 	@Override
-	public StudentModel saveCustom(StudentModel student) {
+	public StudentModel saveOne(StudentModel student) {
 		return manager.merge(student);
-		
 	}
 	
-	 @Transactional
-	 @Override
-	public void delete(StudentModel student) {
-		student = findCustom(student.getId());
-		 manager.remove(student);
-		
+	@Transactional
+	@Override
+	public void deleteOne(Long id) {
+		 
+		 StudentModel student = findOne(id);
+		 manager.remove(student);		
 	}
-
-
 		
 }
