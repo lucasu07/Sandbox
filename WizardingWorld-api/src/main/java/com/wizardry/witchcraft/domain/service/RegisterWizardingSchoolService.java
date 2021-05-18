@@ -20,7 +20,7 @@ public class RegisterWizardingSchoolService {
 	
 	public WizardingSchoolModel find(Long Id) {
 		return iWizardingSchoolRepository.findOne(Id);
-		
+		 
 	}
 	
 	public WizardingSchoolModel add(WizardingSchoolModel wizardingSchoolModel) {
