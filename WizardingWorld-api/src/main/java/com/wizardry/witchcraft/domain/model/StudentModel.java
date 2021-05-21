@@ -24,11 +24,6 @@ import lombok.EqualsAndHashCode;
 //@Table(name = "")
 public class StudentModel {
 	
-	/* 
-	 * public Student (Long id, String name, String familyName, String email) {
-	 * this.id = id; this.name = name; this.familyName = familyName; this.email =
-	 * email; } 
-	 */ 
 	
 	@EqualsAndHashCode.Include
 	@Id	  
@@ -40,7 +35,7 @@ public class StudentModel {
 	@JoinColumn(name = "wizarding_school_id")
 	public WizardingSchoolModel wizardingSchoolModel;
 		
-	@JsonProperty("nome do aluno")
+	//@JsonProperty("nome do aluno")
 	@Column(nullable= false, length = 50) 
 	public String name;
 		

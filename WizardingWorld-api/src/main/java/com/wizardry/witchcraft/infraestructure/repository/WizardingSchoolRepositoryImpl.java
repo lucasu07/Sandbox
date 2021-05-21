@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,14 +30,20 @@ public class WizardingSchoolRepositoryImpl implements IWizardingSchoolRepository
 	
 		
 	@Transactional
+	@Override
 	public WizardingSchoolModel saveOne(WizardingSchoolModel wizardingschoolModel) {
 		return manager.merge(wizardingschoolModel);
 	}
 	
 	@Transactional
 	@Override
-	public void deleteOne (Long id) {		
-		WizardingSchoolModel wizardingschoolModel = findOne(id);		
+	public void deleteOne (Long id) {
+		
+		WizardingSchoolModel wizardingschoolModel = findOne(id);
+		
+		if(wizardingschoolModel ==null) {
+			throw new EmptyResultDataAccessException(1);
+		}
 		manager.remove(wizardingschoolModel);				
 	}
 	

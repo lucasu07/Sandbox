@@ -23,12 +23,11 @@ public class StudentRepositoryImpl implements IStudentRepository{
 	@PersistenceContext
 	private EntityManager manager;
 	
-	
-	  @Override public List<StudentModel> listItAll(){ 
+	@Override 
+	public List<StudentModel> listItAll(){ 
 		  return  manager.createQuery("from student", StudentModel.class).getResultList();
 	  
-	  }
-	 
+	}
 	
 	@Override
 	public StudentModel findOne (Long id)	{
@@ -36,18 +35,16 @@ public class StudentRepositoryImpl implements IStudentRepository{
 		
 	}	
 	
-	
 	 // No contexto do Hibernate quando adicionamos um record e passamos a
 	 // propriedade id , o proprio HIBERNATE faz um SELECT e encontrando um record já
 	 // no db, faz um UPDATE ao invés de um INSERT.
-	 
-	
+
 	@Transactional
 	@Override
 	public StudentModel saveOne(StudentModel student) {
 		return manager.merge(student);
 	}
-	
+
 	@Transactional
 	@Override
 	public void deleteOne(Long id) {

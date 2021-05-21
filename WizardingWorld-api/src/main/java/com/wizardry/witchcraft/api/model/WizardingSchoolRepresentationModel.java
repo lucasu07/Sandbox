@@ -5,7 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.wizardry.witchcraft.domain.model.StudentModel;
+import com.wizardry.witchcraft.domain.model.WizardingSchoolModel;
 
 import lombok.Data;
 import lombok.NonNull;
@@ -16,13 +16,13 @@ import lombok.NonNull;
 */
 
 
-@JacksonXmlRootElement(localName = "students")
+@JacksonXmlRootElement(localName = "wizardingSchool")
 @Data
-public class StudentsRepresentationModel {
+public class WizardingSchoolRepresentationModel {
 	
-	@JsonProperty("student")
-	@JacksonXmlElementWrapper(useWrapping = false) // Usado para
-	@NonNull
-	private List<StudentModel> students;
+	@JsonProperty("school")
+	@JacksonXmlElementWrapper(useWrapping = false) // Usado para truncar o elemento intermediário usado pela
+	@NonNull									   //representação application/xml
+	private List<WizardingSchoolModel> schools;
 
 }

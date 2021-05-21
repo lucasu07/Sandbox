@@ -18,6 +18,5 @@ public interface IStudentRepository {
 	StudentModel findOne(Long id);
 	StudentModel saveOne(StudentModel studentModel);
 	void deleteOne(Long Id);
-		
 	
 }
