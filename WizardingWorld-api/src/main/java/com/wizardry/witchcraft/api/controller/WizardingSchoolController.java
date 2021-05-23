@@ -49,17 +49,21 @@ public class WizardingSchoolController {
 	public WizardingSchoolRepresentationModel listXml() {
 		return new WizardingSchoolRepresentationModel(registerWizardingSchoolService.listItAll());
 	}
-
+	
+	
+	//Criar uma exceção para os metodos find a responsabilidade de saber se o ID existe ou não
+	//não é do controller
 	@GetMapping("/{id}")
-	public ResponseEntity<WizardingSchoolModel> listById(@PathVariable(value = "id") Long schoolId) {
-		WizardingSchoolModel wizardingSchoolModel = registerWizardingSchoolService.find(schoolId);
-
-		if (wizardingSchoolModel != null) {
+	public ResponseEntity<?> listById(@PathVariable(value = "id") Long schoolId) {
+		
+		try {
+			WizardingSchoolModel wizardingSchoolModel = (registerWizardingSchoolService.find(schoolId));
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(wizardingSchoolModel);
+		
+		
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());			
 		}
-
-		return ResponseEntity.notFound().build();
-
 	}
 
 	@PostMapping
@@ -72,19 +76,21 @@ public class WizardingSchoolController {
 	// Risco de dar merge de duas escolas colocando o mesmo nome, pois é um foreign
 	// key da tabela alunos.
 	@PutMapping("/{id}")
-	public ResponseEntity<WizardingSchoolModel> update(@PathVariable(value = "id") Long schoolId,
+	public ResponseEntity<?> update(@PathVariable(value = "id") Long schoolId,
 			@RequestBody WizardingSchoolModel wizardingSchoolModelOne) {
 
-		WizardingSchoolModel wizardingSchoolModelZero = (registerWizardingSchoolService.find(schoolId));
-
-		if (wizardingSchoolModelZero != null) {
+		try {
+			WizardingSchoolModel wizardingSchoolModelZero = (registerWizardingSchoolService.find(schoolId));
 			BeanUtils.copyProperties(wizardingSchoolModelOne, wizardingSchoolModelZero, "id");
 
 			return ResponseEntity.status(HttpStatus.ACCEPTED)
 					.body(registerWizardingSchoolService.register(wizardingSchoolModelZero));
+			
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+			
 		}
-
-		return ResponseEntity.notFound().build();
+		
 
 	}
 
@@ -93,7 +99,7 @@ public class WizardingSchoolController {
 		try {
 			registerWizardingSchoolService.remove(schoolId);
 			return ResponseEntity.noContent().build();
-
+ 
 		} catch (EntityNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND) 
 					.body(e.getMessage()); 

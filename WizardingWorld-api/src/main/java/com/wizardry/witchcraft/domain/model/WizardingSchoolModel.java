@@ -32,7 +32,7 @@ public class WizardingSchoolModel {
 	public String name;
 	
 	public String location;
-	
+	 
 	//@JsonIgnore
 	public Boolean isTheSchoolSpecialized;
 

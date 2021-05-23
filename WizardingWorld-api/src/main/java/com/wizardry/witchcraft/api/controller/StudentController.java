@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wizardry.witchcraft.api.model.StudentsRepresentationModel;
+import com.wizardry.witchcraft.domain.exception.EntityNotFoundException;
 import com.wizardry.witchcraft.domain.model.StudentModel;
 import com.wizardry.witchcraft.domain.repository.IStudentRepository;
 import com.wizardry.witchcraft.domain.service.RegisterStudentService;
@@ -27,9 +28,6 @@ import com.wizardry.witchcraft.domain.service.RegisterStudentService;
 @RequestMapping(value = "/students")
 public class StudentController {
 	
-	
-	@Autowired
-	private IStudentRepository iStudentRepository;
 	
 	@Autowired
 	private RegisterStudentService registerStudentService;
@@ -44,68 +42,79 @@ public class StudentController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public  List<StudentModel> listJson() {
 				
-		return iStudentRepository.listItAll();		
+		return registerStudentService.list();		
 	}
 	
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
 	public  StudentsRepresentationModel listXml() {
 				
-		return new StudentsRepresentationModel(iStudentRepository.listItAll());
+		return new StudentsRepresentationModel(registerStudentService.list());
 		
 	}
 		
+	
+	//Criar uma exceção para os metodos find a responsabilidade de saber se o ID existe ou não
+	//não é do controller!
 	@GetMapping("/{Id}") 
-	public ResponseEntity<StudentModel> find(@PathVariable("Id") Long studentId) {
-		  StudentModel student = iStudentRepository.findOne(studentId);
-		  
-		  if (student != null){
+	public ResponseEntity<?> find(@PathVariable("Id") Long studentId) {
+		  		  
+		  try {
+			  StudentModel student = registerStudentService.findOne(studentId);
 			  return ResponseEntity 
 				  .status(HttpStatus.OK) 
 				  .body(student);
-		  
-		   }
-		  
-		  return ResponseEntity.notFound().build();
+		  } catch (EntityNotFoundException e) {
+			  return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 			  
+		  }
+		    
 	}
 	
 	
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public StudentModel add(@RequestBody StudentModel studentModel) {
+	public ResponseEntity<?> register(@RequestBody StudentModel studentModel) {
 		
-		return registerStudentService.register(studentModel);
+		try {
+			studentModel = registerStudentService.register(studentModel);
+				   
+			return ResponseEntity.status(HttpStatus.CREATED).body(studentModel);
+			
+			} catch (EntityNotFoundException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+		}		
 	}
 	
+	
+	
 	@PutMapping("/{Id}")
-	public ResponseEntity<StudentModel> update(@RequestBody StudentModel studentModelOne, @PathVariable("Id")
-			Long studentId){
-		StudentModel studentModelZero = iStudentRepository.findOne(studentId);
-		
-		if(studentModelZero!=null){				
-			BeanUtils.copyProperties(studentModelOne, studentModelZero, "id");
-			registerStudentService.register(studentModelZero);		
-			return ResponseEntity
-					.status(HttpStatus.ACCEPTED)
-					.body(studentModelZero);
-
-		}
-		
-		return ResponseEntity.notFound().build();
-		
-	}
+	
+	  public ResponseEntity<?> update(@RequestBody StudentModel
+	  studentModelOne, @PathVariable("Id") Long studentId){
+		  try {
+			  StudentModel studentModelZero = registerStudentService.findOne(studentId);
+			  BeanUtils.copyProperties(studentModelOne,  studentModelZero, "id");
+			  registerStudentService.register(studentModelZero);
+			  return ResponseEntity .status(HttpStatus.ACCEPTED) .body(studentModelZero);
+			    			  
+		  }catch(EntityNotFoundException e) {			  
+			  return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+			  
+		  }
+	  }
 
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<StudentModel> delete(@PathVariable ("id") Long studendId){
-		StudentModel studentModelZero = iStudentRepository.findOne(studendId);
-				
-		if(studentModelZero != null) {	
+	public ResponseEntity<?> delete(@PathVariable ("id") Long studendId){
+		
+		try {
 			registerStudentService.remove(studendId);			
 			return ResponseEntity.noContent().build();			
+				
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+			  
 		}
-		
-		return ResponseEntity.notFound().build();		
+			
 	} 			
 }

@@ -24,7 +24,12 @@ public class RegisterWizardingSchoolService {
 	}
 	
 	public WizardingSchoolModel find(Long Id) {
-		return iWizardingSchoolRepository.findOne(Id);		 
+		
+		try {
+			return iWizardingSchoolRepository.findOne(Id);		 
+		} catch (EmptyResultDataAccessException e){
+			throw new EntityNotFoundException(String.format("FindError: School registration non-existent %d", Id)); 
+		}
 	}
 	
 	public WizardingSchoolModel register(WizardingSchoolModel wizardingSchoolModel) {
@@ -37,10 +42,9 @@ public class RegisterWizardingSchoolService {
 		try {
 			iWizardingSchoolRepository.deleteOne(Id);
 			
-			
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException(
-				String.format("School registration non-existent %d", Id));
+				String.format("Remove-FindError: School registration non-existent %d", Id));
 		
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityInUseException(

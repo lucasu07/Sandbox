@@ -25,6 +25,10 @@ public class WizardingSchoolRepositoryImpl implements IWizardingSchoolRepository
 	
 	@Override
 	public WizardingSchoolModel findOne(Long Id) {
+		if(manager.find(WizardingSchoolModel.class, Id)==null){
+			throw new EmptyResultDataAccessException(1);
+			
+		}
 		return manager.find(WizardingSchoolModel.class, Id);		
 	}
 	
@@ -34,6 +38,7 @@ public class WizardingSchoolRepositoryImpl implements IWizardingSchoolRepository
 	public WizardingSchoolModel saveOne(WizardingSchoolModel wizardingschoolModel) {
 		return manager.merge(wizardingschoolModel);
 	}
+	
 	
 	@Transactional
 	@Override

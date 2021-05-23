@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 
-
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +31,10 @@ public class StudentRepositoryImpl implements IStudentRepository{
 	
 	@Override
 	public StudentModel findOne (Long id)	{
+		
+		if (manager.find(StudentModel.class, id) == null) {
+			throw new EmptyResultDataAccessException(1);
+		}
 		return manager.find(StudentModel.class, id);
 		
 	}	
@@ -48,9 +52,13 @@ public class StudentRepositoryImpl implements IStudentRepository{
 	@Transactional
 	@Override
 	public void deleteOne(Long id) {
-		 
-		 StudentModel student = findOne(id);
-		 manager.remove(student);		
+		StudentModel studentModel = findOne(id);
+				
+		if (studentModel == null) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		manager.remove(studentModel);
+		 		
 	}
 		
 }
