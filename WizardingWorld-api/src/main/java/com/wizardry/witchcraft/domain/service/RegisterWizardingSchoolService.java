@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.wizardry.witchcraft.domain.exception.EntityInUseException;
 import com.wizardry.witchcraft.domain.exception.EntityNotFoundException;
+import com.wizardry.witchcraft.domain.exception.EntitySchoolNotFoundException;
 import com.wizardry.witchcraft.domain.model.WizardingSchoolModel;
 import com.wizardry.witchcraft.domain.repository.IWizardingSchoolRepository;
 
@@ -28,7 +29,7 @@ public class RegisterWizardingSchoolService {
 		try {
 			return iWizardingSchoolRepository.findOne(Id);		 
 		} catch (EmptyResultDataAccessException e){
-			throw new EntityNotFoundException(String.format("FindError: School registration non-existent %d", Id)); 
+			throw new EntitySchoolNotFoundException(String.format("FindError: School registration non-existent %d", Id)); 
 		}
 	}
 	
@@ -43,7 +44,7 @@ public class RegisterWizardingSchoolService {
 			iWizardingSchoolRepository.deleteOne(Id);
 			
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException(
+			throw new EntitySchoolNotFoundException(
 				String.format("Remove-FindError: School registration non-existent %d", Id));
 		
 		} catch (DataIntegrityViolationException e) {

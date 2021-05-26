@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 /**
  * @author lucas-SonyBlack
@@ -28,7 +29,7 @@ public class WizardingSchoolModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	
-	@Column(nullable = false , length = 50) 
+	
 	public String name;
 	
 	public String location;

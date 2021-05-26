@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.wizardry.witchcraft.api.model.StudentsRepresentationModel;
 import com.wizardry.witchcraft.domain.exception.EntityNotFoundException;
+import com.wizardry.witchcraft.domain.exception.EntitySchoolNotFoundException;
 import com.wizardry.witchcraft.domain.model.StudentModel;
 import com.wizardry.witchcraft.domain.model.WizardingSchoolModel;
 import com.wizardry.witchcraft.domain.repository.IStudentRepository;
@@ -50,9 +51,8 @@ public class RegisterStudentService {
 				return iStudentRepository.saveOne(studentModel);	
 			 
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException (String.format("FindSchoolError: School registration non-existent"));
-		}
-				
+			throw new EntitySchoolNotFoundException (String.format("FindSchoolError: School registration non-existent"));
+		}				
 	}	
 	 
 	public void remove(Long studentId) {				
