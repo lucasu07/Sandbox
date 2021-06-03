@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +24,8 @@ import com.wizardry.witchcraft.domain.exception.EntityNotFoundException;
 import com.wizardry.witchcraft.domain.exception.EntitySchoolNotFoundException;
 import com.wizardry.witchcraft.domain.model.StudentModel;
 import com.wizardry.witchcraft.domain.model.WizardingSchoolModel;
+import com.wizardry.witchcraft.domain.repository.IStateRepository;
+import com.wizardry.witchcraft.domain.repository.IStudentRepository;
 import com.wizardry.witchcraft.domain.service.RegisterStudentService;
 import com.wizardry.witchcraft.domain.service.RegisterWizardingSchoolService;
 
@@ -34,7 +38,8 @@ public class StudentController {
 
 	@Autowired
 	private RegisterWizardingSchoolService registerWizardingSchoolService;
-
+	
+	
 	/*
 	 * Content negotiation podemos fazer 2 mapeamentos para o mesmo endPoint
 	 * especificando metodos diferentes é o MediaType aceito pela requisição No caso
@@ -57,14 +62,15 @@ public class StudentController {
 	// Criar uma exceção para os metodos find a responsabilidade de saber se o ID
 	// existe ou não
 	// não é do controller!
+	
 	@GetMapping("/{Id}")
 	public ResponseEntity<?> find(@PathVariable("Id") Long studentId) {
 
 		try {
 			StudentModel student = registerStudentService.findOne(studentId);
 			return ResponseEntity.status(HttpStatus.OK).body(student);
-		} catch (EntityNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		} catch (EmptyResultDataAccessException e) {
+			return ResponseEntity.notFound().build();
 
 		}
 	}
@@ -89,17 +95,17 @@ public class StudentController {
 		try {
 			StudentModel studentModelZero = registerStudentService.findOne(studentId);
 			WizardingSchoolModel wizardingSchoolModel = (registerWizardingSchoolService
-					.find(studentModelZero.getWizardingSchoolModel().getId()));
+					.findOne(studentModelZero.getWizardingSchoolModel().getId()));
 
 			BeanUtils.copyProperties(studentModelOne, studentModelZero, "id");
 			registerStudentService.register(studentModelZero);
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(studentModelZero);
 
-		} catch (EntityNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		} catch (EmptyResultDataAccessException e) {
+			return ResponseEntity.notFound().build();
 		}
 		
-		 catch (EntitySchoolNotFoundException e) {
+		 catch (EntityNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}

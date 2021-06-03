@@ -1,14 +1,13 @@
 package com.wizardry.witchcraft.domain.repository;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.wizardry.witchcraft.domain.model.StateModel;
 
-public interface IStateRepository {
+@Repository
+public interface IStateRepository extends  JpaRepository<StateModel, Long>{
 	
-	List<StateModel> findAll();
-	StateModel findOne(Long id);
-	StateModel registerOne(StateModel stateModel);
-	void deleteOne(Long id);
+
 	
 }

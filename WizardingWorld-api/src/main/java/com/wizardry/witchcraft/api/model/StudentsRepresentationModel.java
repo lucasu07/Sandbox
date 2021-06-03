@@ -21,7 +21,7 @@ import lombok.NonNull;
 public class StudentsRepresentationModel {
 	
 	@JsonProperty("student")
-	@JacksonXmlElementWrapper(useWrapping = false) // Usado para
+	@JacksonXmlElementWrapper(useWrapping = true) // Usado para
 	@NonNull
 	private List<StudentModel> students;
 

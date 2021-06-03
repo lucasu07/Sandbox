@@ -1,6 +1,8 @@
 package com.wizardry.witchcraft.domain.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -26,38 +28,39 @@ public class RegisterStudentService {
 	
 	
 	public List<StudentModel> list(){
-		return iStudentRepository.listItAll();		
+		return iStudentRepository.findAll();		
 	}	
 	
 	public StudentModel findOne(Long id) {
 		
-		try {
-			return iStudentRepository.findOne(id);	
+		Optional<StudentModel> studentModel = iStudentRepository.findById(id);	
 		
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException (String.format("FindError: Student registration non-existent"));
-		
-		}					
+		if(studentModel.isEmpty()) {
+			throw new EmptyResultDataAccessException(1); 			
+		}			
+		return studentModel.get();
+			
 	}	
 	
-	public StudentModel register(StudentModel studentModel) {		
+	public StudentModel register(StudentModel studentModel) {
+		
+		Long schoolId = studentModel.getWizardingSchoolModel().getId();
 		try {
 
-			 Long schoolId = studentModel.getWizardingSchoolModel().getId();
-			 WizardingSchoolModel wizardingSchoolModel = iWizardingSchoolRepository
-						.findOne(schoolId);
-			 studentModel.setWizardingSchoolModel(wizardingSchoolModel);
+			Optional<WizardingSchoolModel> wizardingSchoolModel = iWizardingSchoolRepository
+						.findById(schoolId);
+			studentModel.setWizardingSchoolModel(wizardingSchoolModel.get());
 
-				return iStudentRepository.saveOne(studentModel);	
+			return iStudentRepository.save(studentModel);	
 			 
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntitySchoolNotFoundException (String.format("FindSchoolError: School registration non-existent"));
+		} catch (NoSuchElementException e){			
+			throw new EntityNotFoundException(String.format("FindError: School registration non-existent %d", schoolId)); 
 		}				
 	}	
 	 
 	public void remove(Long studentId) {				
 		try {
-		iStudentRepository.deleteOne(studentId);		
+		iStudentRepository.deleteById(studentId);		
 		 
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException (String.format("Remove-FindError: Student registration non-existent"));

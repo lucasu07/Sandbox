@@ -1,6 +1,7 @@
 package com.wizardry.witchcraft.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,9 +11,7 @@ import org.springframework.stereotype.Service;
 import com.wizardry.witchcraft.domain.exception.EntityInUseException;
 import com.wizardry.witchcraft.domain.exception.EntityNotFoundException;
 import com.wizardry.witchcraft.domain.model.CountryModel;
-import com.wizardry.witchcraft.domain.model.StateModel;
 import com.wizardry.witchcraft.domain.repository.ICountryRepository;
-import com.wizardry.witchcraft.domain.repository.IStateRepository;
 
 @Service
 public class RegisterCountryService {
@@ -26,16 +25,18 @@ public class RegisterCountryService {
 	}
 	
 	public CountryModel findOne (Long id) {
-		CountryModel countryModel  =iCountryRepository.findOne(id);		
+		Optional<CountryModel> countryModel  =iCountryRepository.findById(id);		
 		
-		if (countryModel ==null) {
+		if (countryModel.isEmpty()) {
 			throw new EmptyResultDataAccessException(1);
 		}
-		return 	countryModel;
+		 
+		
+		return 	countryModel.get();
 	}
 	 
 	public CountryModel register(CountryModel countryModel) {
-		return iCountryRepository.registerOne(countryModel);	
+		return iCountryRepository.save(countryModel);	
 	}
 	 
 
@@ -43,8 +44,7 @@ public class RegisterCountryService {
 	public void remove(Long id) {
 		
 		try {
-			CountryModel countryModel  = findOne(id);		
-			iCountryRepository.deleteOne(id);	
+			iCountryRepository.deleteById(id);	
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException(String.format("Country registration non-existent %d", id));
 		} catch (DataIntegrityViolationException e) {

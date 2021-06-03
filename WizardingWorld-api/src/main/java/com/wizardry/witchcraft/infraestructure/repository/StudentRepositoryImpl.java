@@ -1,64 +1,30 @@
 package com.wizardry.witchcraft.infraestructure.repository;
-
+ 
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.stereotype.Repository;
 
 import com.wizardry.witchcraft.domain.model.StudentModel;
+import com.wizardry.witchcraft.domain.repository.ICustomStudentRepository;
 
-import com.wizardry.witchcraft.domain.repository.IStudentRepository;
-
-
-@Component
-public class StudentRepositoryImpl implements IStudentRepository{
+@Repository(value = "IStudentRepositoryImpl")
+public class StudentRepositoryImpl implements ICustomStudentRepository {
 	
 	@PersistenceContext
 	private EntityManager manager;
 	
-	@Override 
-	public List<StudentModel> listItAll(){ 
-		  return  manager.createQuery("from student", StudentModel.class).getResultList();
-	  
-	}
-	
 	@Override
-	public StudentModel findOne (Long id)	{
+	public List<StudentModel> find2(String name){
 		
-		if (manager.find(StudentModel.class, id) == null) {
-			throw new EmptyResultDataAccessException(1);
-		}
-		return manager.find(StudentModel.class, id);
+		var jpql = "from student where name like :name";
 		
-	}	
-	
-	 // No contexto do Hibernate quando adicionamos um record e passamos a
-	 // propriedade id , o proprio HIBERNATE faz um SELECT e encontrando um record já
-	 // no db, faz um UPDATE ao invés de um INSERT.
-
-	@Transactional
-	@Override
-	public StudentModel saveOne(StudentModel student) {
-		return manager.merge(student);
+		return manager.createQuery(jpql, StudentModel.class)
+				.setParameter("name", "%"+ name +"%")
+				.getResultList();
+		
 	}
 
-	@Transactional
-	@Override
-	public void deleteOne(Long id) {
-		StudentModel studentModel = findOne(id);
-				
-		if (studentModel == null) {
-			throw new EmptyResultDataAccessException(1);
-		}
-		manager.remove(studentModel);
-		 		
-	}
-		
-}
+} 

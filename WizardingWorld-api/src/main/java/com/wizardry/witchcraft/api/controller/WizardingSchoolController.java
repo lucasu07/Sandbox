@@ -57,7 +57,7 @@ public class WizardingSchoolController {
 	public ResponseEntity<?> listById(@PathVariable(value = "id") Long schoolId) {
 		
 		try {
-			WizardingSchoolModel wizardingSchoolModel = (registerWizardingSchoolService.find(schoolId));
+			WizardingSchoolModel wizardingSchoolModel = (registerWizardingSchoolService.findOne(schoolId));
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(wizardingSchoolModel);
 		
 		
@@ -80,7 +80,7 @@ public class WizardingSchoolController {
 			@RequestBody WizardingSchoolModel wizardingSchoolModelOne) {
 
 		try {
-			WizardingSchoolModel wizardingSchoolModelZero = (registerWizardingSchoolService.find(schoolId));
+			WizardingSchoolModel wizardingSchoolModelZero = (registerWizardingSchoolService.findOne(schoolId));
 			BeanUtils.copyProperties(wizardingSchoolModelOne, wizardingSchoolModelZero, "id");
 
 			return ResponseEntity.status(HttpStatus.ACCEPTED)

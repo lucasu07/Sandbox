@@ -49,7 +49,7 @@ public class CountryController {
 		} catch (EmptyResultDataAccessException e) {
 			return ResponseEntity.notFound().build();
 		}
-	
+
 	}
 	
 	//Se colocarmos o nome da coluna errado criará um record null para o banco!
@@ -58,7 +58,6 @@ public class CountryController {
 	public CountryModel register (@RequestBody CountryModel countryModel) {
 		return registerCountryService.register(countryModel);		
 	}
-	
 	
 	@PutMapping("/{id}")	
 	public ResponseEntity<CountryModel> update (@PathVariable(name = "id") Long id,
@@ -74,9 +73,9 @@ public class CountryController {
 			return ResponseEntity.notFound().build();			
 		
 		}	
-
 		
 	}
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> remove(@PathVariable(name = "id") Long id) {
 		try {
@@ -89,7 +88,5 @@ public class CountryController {
 		}
 		
 	}	
-	
-	
 	
 }

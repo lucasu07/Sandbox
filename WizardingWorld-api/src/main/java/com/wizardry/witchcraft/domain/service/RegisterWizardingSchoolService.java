@@ -1,16 +1,17 @@
 package com.wizardry.witchcraft.domain.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
+
 import org.springframework.stereotype.Service;
 
 import com.wizardry.witchcraft.domain.exception.EntityInUseException;
 import com.wizardry.witchcraft.domain.exception.EntityNotFoundException;
-import com.wizardry.witchcraft.domain.exception.EntitySchoolNotFoundException;
+
 import com.wizardry.witchcraft.domain.model.WizardingSchoolModel;
 import com.wizardry.witchcraft.domain.repository.IWizardingSchoolRepository;
 
@@ -21,30 +22,31 @@ public class RegisterWizardingSchoolService {
 	private IWizardingSchoolRepository iWizardingSchoolRepository;
 	
 	public List<WizardingSchoolModel> listItAll(){
-		return iWizardingSchoolRepository.listItAll();
+		return iWizardingSchoolRepository.findAll();
 	}
 	
-	public WizardingSchoolModel find(Long Id) {
+	public WizardingSchoolModel findOne(Long Id) {
 		
 		try {
-			return iWizardingSchoolRepository.findOne(Id);		 
-		} catch (EmptyResultDataAccessException e){
-			throw new EntitySchoolNotFoundException(String.format("FindError: School registration non-existent %d", Id)); 
+			return iWizardingSchoolRepository.findById(Id).get();	
+			
+		} catch (NoSuchElementException e){
+			throw new EntityNotFoundException(String.format("FindError: School registration non-existent %d", Id)); 
 		}
 	}
 	
 	public WizardingSchoolModel register(WizardingSchoolModel wizardingSchoolModel) {
-		return iWizardingSchoolRepository.saveOne(wizardingSchoolModel);
+		return iWizardingSchoolRepository.save(wizardingSchoolModel);
 	}
 	
 	
 	public void remove(Long Id) {
 		
 		try {
-			iWizardingSchoolRepository.deleteOne(Id);
+			iWizardingSchoolRepository.deleteById(Id);
 			
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntitySchoolNotFoundException(
+			throw new EntityNotFoundException(
 				String.format("Remove-FindError: School registration non-existent %d", Id));
 		
 		} catch (DataIntegrityViolationException e) {
