@@ -31,7 +31,7 @@ public class StudentModel {
 	public Long id;
 	
 	//@JsonIgnore
-	@ManyToOne
+	@ManyToOne 
 	@JoinColumn(name = "wizarding_school_id")
 	public WizardingSchoolModel wizardingSchoolModel;
 		

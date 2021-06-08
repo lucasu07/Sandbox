@@ -58,6 +58,13 @@ public class StudentController {
 		return new StudentsRepresentationModel(registerStudentService.list());
 
 	}
+	
+	@GetMapping
+	public List<StudentModel> find2(String name
+			,Boolean isDadWizard ,Boolean isMomWizard) {
+		return registerStudentService.find2(name,isDadWizard, isMomWizard);
+		
+	}
 
 	// Criar uma exceção para os metodos find a responsabilidade de saber se o ID
 	// existe ou não

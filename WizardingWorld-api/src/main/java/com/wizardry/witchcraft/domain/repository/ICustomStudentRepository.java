@@ -10,6 +10,6 @@ import com.wizardry.witchcraft.domain.model.StudentModel;
 @NoRepositoryBean
 public interface ICustomStudentRepository {
 
-	List<StudentModel> find2(String name);
-
+	public List<StudentModel> find2(String name
+			,Boolean isDadWizard ,Boolean isMomWizard);
 }

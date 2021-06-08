@@ -30,7 +30,7 @@ import com.wizardry.witchcraft.domain.service.RegisterStudentService;
 import com.wizardry.witchcraft.domain.service.RegisterWizardingSchoolService;
 
 @RestController
-@RequestMapping(value = "/testes")
+@RequestMapping(value = "/test")
 public class TestController {
 
 	@Autowired
@@ -45,8 +45,9 @@ public class TestController {
 
 	
 	@GetMapping
-	public List<StudentModel> find2(String name) {
-		return iStudentRepository.find2(name);
+	public List<StudentModel> find2(String name
+			,Boolean isDadWizard ,Boolean isMomWizard) {
+		return iStudentRepository.find2(name,isDadWizard, isMomWizard);
 		
 	}
 

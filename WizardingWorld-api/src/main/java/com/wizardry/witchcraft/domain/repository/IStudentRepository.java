@@ -14,7 +14,7 @@ public interface IStudentRepository
 	
 
 	
-	  List<StudentModel> queryByName(String name, @Param ("id") Long school);
+	  List<StudentModel> squeryByName(String name, @Param ("id") Long school);
 	  
 	  List<StudentModel> queryFirstByNameContaining(String name);
 	  

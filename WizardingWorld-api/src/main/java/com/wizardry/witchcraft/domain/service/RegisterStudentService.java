@@ -26,6 +26,11 @@ public class RegisterStudentService {
 	@Autowired
 	private IWizardingSchoolRepository iWizardingSchoolRepository;
 	
+	public List<StudentModel> find2(String name
+			,Boolean isDadWizard ,Boolean isMomWizard) {
+		return iStudentRepository.find2(name,isDadWizard, isMomWizard);
+		
+	}
 	
 	public List<StudentModel> list(){
 		return iStudentRepository.findAll();		
