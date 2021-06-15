@@ -28,7 +28,7 @@ public class StudentRepositoryImpl implements ICustomStudentRepository {
 	public List<StudentModel> find1(String name
 			,Boolean isDadWizard ,Boolean isMomWizard) {
 		
-		var parameter = new HashMap<String, Object>(); 
+		 var parameter = new HashMap<String, Object>(); 
 		  StringBuilder str = new StringBuilder();
 		  
 		  str.append("from student where 0=0 ");

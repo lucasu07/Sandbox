@@ -7,11 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.wizardry.witchcraft.api.model.StudentsRepresentationModel;
 import com.wizardry.witchcraft.domain.exception.EntityNotFoundException;
-import com.wizardry.witchcraft.domain.exception.EntitySchoolNotFoundException;
+
 import com.wizardry.witchcraft.domain.model.StudentModel;
 import com.wizardry.witchcraft.domain.model.WizardingSchoolModel;
 import com.wizardry.witchcraft.domain.repository.IStudentRepository;

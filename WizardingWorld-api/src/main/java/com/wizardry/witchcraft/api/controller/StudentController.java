@@ -2,8 +2,11 @@ package com.wizardry.witchcraft.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,17 +18,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wizardry.witchcraft.api.model.StudentsRepresentationModel;
 import com.wizardry.witchcraft.domain.exception.EntityNotFoundException;
-import com.wizardry.witchcraft.domain.exception.EntitySchoolNotFoundException;
+
 import com.wizardry.witchcraft.domain.model.StudentModel;
 import com.wizardry.witchcraft.domain.model.WizardingSchoolModel;
-import com.wizardry.witchcraft.domain.repository.IStateRepository;
-import com.wizardry.witchcraft.domain.repository.IStudentRepository;
+
 import com.wizardry.witchcraft.domain.service.RegisterStudentService;
 import com.wizardry.witchcraft.domain.service.RegisterWizardingSchoolService;
 
@@ -83,7 +85,7 @@ public class StudentController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> register(@RequestBody StudentModel studentModel) {
+	public ResponseEntity<?> register(@RequestBody @Valid StudentModel studentModel) {
 
 		try {
 			studentModel = registerStudentService.register(studentModel);
@@ -92,11 +94,15 @@ public class StudentController {
 
 		} catch (EntityNotFoundException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
+			
+			//temporário: retirar e colocar no Exception handler
+		} catch (DataIntegrityViolationException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-	}
+}
 
 	@PutMapping("/{Id}")
-	public ResponseEntity<?> update(@RequestBody StudentModel studentModelOne,
+	public ResponseEntity<?> update(@RequestBody @Valid StudentModel studentModelOne,
 			@PathVariable("Id") Long studentId) {
 		
 		try {
