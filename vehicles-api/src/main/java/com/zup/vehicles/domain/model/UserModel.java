@@ -14,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
 
 import lombok.Data;
@@ -29,16 +30,16 @@ public class UserModel {
 	private Long id;
 	
 	@NotBlank
-	@Column(length = 50,nullable = false)
+	@Column(nullable = false)
 	private String name;
 	
 	@NotNull
 	@Email
-	@Column(length = 50,nullable = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 	
 	//@CPF
-	@Column(length = 11,nullable = false)
+	@Column(nullable = false, unique = true)
 	private String cpf;
 	
 	@Past

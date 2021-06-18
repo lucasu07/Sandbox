@@ -27,6 +27,10 @@ public class CarModel {
 	@EqualsAndHashCode.Include
 	private Long id;
 	
+	@ManyToOne 
+	@JoinColumn(name = "user_id")
+	private UserModel userModel;
+	
 	@NotBlank
 	@Column(length = 60,nullable = false)
 	private String brand;
@@ -43,9 +47,7 @@ public class CarModel {
 	
 	private Boolean isCarActive;
 	
-	@ManyToOne 
-	@JoinColumn(name = "user_id")
-	private UserModel userModel;
+
 	 
 		
 }

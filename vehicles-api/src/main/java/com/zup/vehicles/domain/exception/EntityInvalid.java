@@ -4,8 +4,9 @@ public class EntityInvalid extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public EntityInvalid(String mensagem) {
-		super(mensagem);
+	public EntityInvalid(String message) {
+		super(message);
+				
 	}
 
 }
