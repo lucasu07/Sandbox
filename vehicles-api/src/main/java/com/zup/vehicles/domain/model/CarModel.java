@@ -30,7 +30,7 @@ public class CarModel {
 	@ManyToOne 
 	@JoinColumn(name = "user_id")
 	private UserModel userModel;
-	
+			
 	@NotBlank
 	@Column(length = 60,nullable = false)
 	private String brand;
@@ -41,13 +41,13 @@ public class CarModel {
 	
 	@NotNull
 	@Column(length = 50,nullable = false)
-	private int Ano;
+	private int year;
+		
+	private String price;
 	
 	private String dayOfWeek;
 	
 	private Boolean isCarActive;
 	
-
-	 
 		
 }

@@ -33,14 +33,13 @@ public class CarService {
 		String weekDayActive = WeekDayActive(carModel);
 		carModel.setDayOfWeek(weekDayActive);
 		carModel.setIsCarActive(IsCarActive(weekDayActive));
-
 		Long userId = carModel.getUserModel().getId();
 
 		try {
-
 			Optional<UserModel> userModel = userRepository.findById(userId);
 			carModel.setUserModel(userModel.get());			 	
 			return carRepository.save(carModel);	
+			
 		} catch(NoSuchElementException e) {
 
 			throw new EntityInvalid (String.format("User Non-existent"));
@@ -56,7 +55,7 @@ public class CarService {
 
 	private String WeekDayActive(CarModel carModel) {
 
-		int lastDigit = carModel.getAno() % 10;
+		int lastDigit = carModel.getYear() % 10;
 		var parameter = new HashMap<Integer, String>(10); 
 
 		parameter.put(0, "segunda-feira");
