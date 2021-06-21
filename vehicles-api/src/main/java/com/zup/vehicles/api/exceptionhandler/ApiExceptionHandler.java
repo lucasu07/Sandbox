@@ -16,6 +16,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
 import com.zup.vehicles.domain.exception.EntityInvalid;
 
 import feign.FeignException;
@@ -81,6 +83,18 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(e.status()).body(error);
 
     }
+	
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class) 
+	public ResponseEntity<?> MethodArgumentTypeMismatchExceptionHandler (EntityInvalid e) {
+
+		Error error = Error.builder() 
+				.problem("Invalid parameter")
+				.dateHour(LocalDateTime.now())
+				.message(e.getMessage()) 
+				.build();
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
 
 
 	

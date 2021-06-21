@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zup.vehicles.client.fipe.services.CarModelFipeService;
@@ -22,22 +23,17 @@ public class CarController {
 	@Autowired
 	private CarService carService;
 	
-	@Autowired
-	private CarModelFipeService carModelFipeService;
-
-	
-	@GetMapping
-	public List<CarModel> listAllCar(){
-		return carService.listAllCar();
-	}	
 	
 	@PostMapping
 	public CarModel register(@RequestBody @Valid CarModel carModel) {
 		return carService.register(carModel);
 	}
-		
 	
 	
+	@GetMapping
+	public List<CarModel> queryByUser(@RequestParam Long user){
+		return carService.queryByUser(user);
+	}
 
 	
 }

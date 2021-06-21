@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.zup.vehicles.client.fipe.services.CarModelFipeService;
@@ -31,6 +32,11 @@ public class CarService {
 	
 	@Autowired
 	private CarModelFipeService carModelFipeService;
+	
+	
+	public List<CarModel> queryByUser( Long user){
+		return carRepository.queryByUser(user);
+	};
 	
 
 	public CarModel register(CarModel carModel) {
