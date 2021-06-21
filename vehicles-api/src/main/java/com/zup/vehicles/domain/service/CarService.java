@@ -13,6 +13,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zup.vehicles.client.fipe.services.CarModelFipeService;
 import com.zup.vehicles.domain.exception.EntityInvalid;
 import com.zup.vehicles.domain.model.CarModel;
 import com.zup.vehicles.domain.model.UserModel;
@@ -27,6 +28,10 @@ public class CarService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CarModelFipeService carModelFipeService;
+	
 
 	public CarModel register(CarModel carModel) {
 
@@ -37,7 +42,9 @@ public class CarService {
 
 		try {
 			Optional<UserModel> userModel = userRepository.findById(userId);
-			carModel.setUserModel(userModel.get());			 	
+			carModel.setUserModel(userModel.get());			
+			String price = carModelFipeService.getCarFipePrice(carModel.getBrand(), carModel.getModel(), carModel.getYear());
+			carModel.setPrice(price);
 			return carRepository.save(carModel);	
 			
 		} catch(NoSuchElementException e) {

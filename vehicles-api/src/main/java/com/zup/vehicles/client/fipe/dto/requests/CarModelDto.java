@@ -8,7 +8,5 @@ public class CarModelDto {
 	private String codigo;
 	
 	private String nome;
-	
-	 
 
 }

@@ -1,5 +1,7 @@
 package com.zup.vehicles.domain.model;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.stereotype.Repository;
 
 import lombok.Data;
@@ -39,6 +42,7 @@ public class CarModel {
 	@Column(length = 50,nullable = false)
 	private String model;
 	
+	@Range(min = 1970)
 	@NotNull
 	@Column(length = 50,nullable = false)
 	private int year;
