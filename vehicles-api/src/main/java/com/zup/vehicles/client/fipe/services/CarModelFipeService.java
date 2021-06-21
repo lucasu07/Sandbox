@@ -48,24 +48,16 @@ public class CarModelFipeService {
 		CarModelDto yearChar = new CarModelDto();
 		var yearHashmap = new HashMap<String, String>();		
 		
+		// Get just the year from property name
 		List<CarModelDto> listyearChar = getFipeModels.getCarYears(id_brand, id_model);		
-		
-		System.out.println(getFipeModels.getCarYears(id_brand, id_model));
-		System.out.println(listyearChar);
-		
 		listyearChar.forEach(car -> car.setNome(car.getNome().split(" ")[0].trim()));
-		System.out.println(listyearChar);
-		
 		listyearChar.forEach(car -> yearHashmap.put(car.getNome(),car.getCodigo()));
+		
 		yearChar.setNome(String.valueOf(year));
 		yearChar.setCodigo(yearHashmap.get(String.valueOf(year)));	
-		//System.out.println(yearChar);
+ 
 		String id_year = yearChar.getCodigo();
-		
-		
-		System.out.println(id_year);
-		System.out.println(id_model);
-		System.out.println(id_brand);
+	 
 		
 		return getFipeModels.getCarPrice(id_brand, id_model, id_year).getValor();
 		

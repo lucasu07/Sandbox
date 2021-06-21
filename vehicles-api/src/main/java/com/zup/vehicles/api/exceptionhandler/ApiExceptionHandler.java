@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.zup.vehicles.domain.exception.EntityInvalid;
+
+import feign.FeignException;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -62,8 +66,21 @@ public class ApiExceptionHandler {
 				.build();
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-
 	}
+	
+	
+	@ExceptionHandler(FeignException.class) 
+	public  ResponseEntity<?> FeignStatusExceptionHandler (FeignException e, HttpServletResponse response) {
+		Error error = Error.builder() 
+				.problem("Year, Model or Brand Not Found")
+				.dateHour(LocalDateTime.now())
+				.message(e.getMessage()) 
+				.build();
+		
+         
+        return ResponseEntity.status(e.status()).body(error);
+
+    }
 
 
 	
