@@ -1,0 +1,14 @@
+insert into wizardingschool (id, name) values (1, 'Hogwarts'); 
+insert into student (name, wizarding_school_id, email, is_mom_wizard, is_dad_wizard, date_birth) values ('Harry',1 ,'email@xyz.com', true, true, date('20120623'));
+insert into student (name, wizarding_school_id, email, is_mom_wizard, is_dad_wizard, date_birth) values ('Hermione',1 ,'email@abc.com', true, true, date('20120623'));
+insert into student (name, wizarding_school_id, email, is_mom_wizard, is_dad_wizard, date_birth) values ('Ronald',1 ,'email@hij.com', true, true, date('20120623'));
+update student set family_name='Potter' where name='Harry';  
+update student set family_name='Wesley' where name='Ronald';  
+update student set family_name='Granger' where name='Hermione'; 
+insert into subject (name) values ('Astronomy');  
+insert into country (name) values ('Brazil'); 
+insert into country (name) values ('EUA'); 
+insert into country (name) values ('FRA');
+insert into state (name, country_id) values ('Parana',1); 
+insert into state (name, country_id) values ('NY',2); 
+insert into state (name, country_id) values ('Parana',1); 
